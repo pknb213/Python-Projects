@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+flaskProject/.idea/
+
+flaskProject/.DS_Store
+
+.DS_Store
+
+flaskProject/test.http
+
+flaskProject/migrations/
