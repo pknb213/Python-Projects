@@ -1,46 +1,56 @@
-# mini_project
+# Flask Board Example
 
-엘리스 미니 프로젝트 Backend Team Interview Project (2022)
+This is an example of adding and deleting bulletin boards using Flask.
 
 ## Library
 
-사용한 라이브러리와 버전은 다음과 같습니다.
+The libraries and versions used in the project are as follows.
+
+### Database
+- psycopg2-binary == 2.9.4
+### DB Migration
 - alembic == 1.8
+### DB ORM
 - Flask-SQLAlchemy == 3.0.1
 - SQLAlchemy==1.4.41
+### Server framework
 - Flask == 2.2.2
-- Flask-JWT-Extended == 4.4.4
+- Werkzeug == 2.2.2
+### Server function
 - Flask-Login == 0.6.2
 - Flask-Migrate == 3.1.0
+### Session
+- Flask-JWT-Extended == 4.4.4
 - PyJWT == 2.5.0
-- Werkzeug == 2.2.2
-- psycopg2-binary == 2.9.4
 - redis == 4.3.4
 
 ## Install
-
-### 모듈 설치
-
+The installation sequence is as follows.
+1. Install the module
+2. Setting Environment Variables
+3. Database initialization
+### Module installation
+Module installation uses the ***requirements.txt*** file.
 ```sh
 $ pip install -r requirements.txt 
 ```
 
-### 환경 변수 설정
-env.env 파일에 선언한 환경 변수를 터미널을 통해 적용합니다.
+### Setting environment variables
+The environment variables declared in the ***env.env*** file are applied through the terminal.
 ```sh
 $ set -o allexport
 $ source env.env
 $ set +o allexport
 ```
 
-### DB Init
-Database init을 합니다
+### Database Initialize
+Initialize the Postgresql database.
 ```sh
 $ flask db init 
 ```
 
 ## API List
-API는 다음과 같으며 base url은 localhost:5000입니다.
+The API is as follows and the base url is localhost:5000.
 1. User APIs
    - SignUp API : POST /signup
    - Login API : POST /login
@@ -60,23 +70,23 @@ API는 다음과 같으며 base url은 localhost:5000입니다.
    - RecentBoardArticle API : GET /dashboard
 
 ## Example
-예시로 보드 추가 및 게시글 추가 및 업데이트 후, 삭제하는 시퀸스는 다음과 같습니다.
+For example, the sequence to delete a board after adding and updating a board and posting is as follows.
 
-1. SingUp API를 호출
+1. Call a SingUp API
 ```http request
 POST http://localhost:5000/signup
 Content-Type: application/x-www-form-urlencoded
 
 fullname={FullName}&email={E-mail}&password={Password}
 ```
-2. Login API를 호출
+2. Call a Login API
 ```http request
 POST http://localhost:5000/login
 Content-Type: application/x-www-form-urlencoded
 
 email={E-mail}&password={Password}
 ```
-3.  Board Create API를 호출
+3.  Call a Board Create API
 ```http request
 POST http://localhost:5000/board
 Content-Type: application/x-www-form-urlencoded
@@ -84,14 +94,14 @@ Authorization: Bearer {Token}
 
 board_name={Board Name}
 ```
-4. Article Create API를 호출
+4. Call a Article Create API
 ```http request
 POST http://localhost:5000/article
 Content-Type: application/x-www-form-urlencoded
 
 title={Title}&content={Content}&board_id={Board Id}
 ```
-5. Article Update API를 호출
+5. Call a Article Update API
 ```http request
 POST http://localhost:5000/article/{Board Id}/{Article Id}/update
 Content-Type: application/x-www-form-urlencoded
@@ -99,7 +109,7 @@ Authorization: Bearer {Token}
 
 new_title={New Title}&new_content={New Content}
 ```
-6. Article Delete API를 호출
+6. Call a Article Delete API
 ```http request
 POST http://localhost:5000/article/{Board Id}/{Article Id}/delete
 Content-Type: application/x-www-form-urlencoded
@@ -108,7 +118,7 @@ Authorization: Bearer {Token}
 
 ## Pagination
 
-Pagination 기능은 목록을 가져오는 다음의 API에 한하여 limit, offset URL Parameter로 제공합니다.
+The pagination function is provided as limit and offset URL parameters only for the following APIs that get a list.
 
 - /board_list
 - /article_list/<board_id>
@@ -123,7 +133,7 @@ Authorization: Bearer {Token}
 
 ## Postgresql Migration
 
-Database migration 다음 cli를 통해 수행되며 migration 디렉토리에 파일이 생성됩니다.
+Database migration It is performed through the following CLI and a file is created in the migration directory.
 ```shell
 $ flask db migrate -m "updated migration."
 $ flask db upgrade
@@ -131,7 +141,7 @@ $ flask db upgrade
 
 ## Redis
 
-Redis는 User가 Login 하게 되면 아래와 같이 Hashmap 형태로 저장하고 참고합니다.
+In Redis, when a user logs in, it is stored and referenced in the form of a Hashmap as shown below.
 ```python
 {
     Email: {
