@@ -137,3 +137,11 @@ flaskProject/.DS_Store
 flaskProject/test.http
 
 flaskProject/migrations/
+
+.idea/
+
+pythonProject/wheelhouse/pymongo-4.1.1.tar.gz
+
+pythonProject/wheelhouse.tar.gz
+
+pythonProject/wheelhouse/six-1.16.0-py2.py3-none-any.whl
