@@ -1,0 +1,382 @@
+/* Style the tab content */
+.tabcontent {
+  /*display: none;*/
+  /* padding: 6px 12px; */
+  border-top: none;
+}
+
+.tab_contents {
+  /*width: 2410px;*/
+  display: inline-block;
+  /*position: fixed;*/
+  position: relative
+}
+
+/* robot_info */
+
+.robot_info {
+  float: left;
+  margin-right: 16px;
+  width: 300px;
+  height: 362px;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.robot_img > img {
+  width: 280px;
+  height: 270px;
+  text-align: center;
+  margin: 6px 10px;
+}
+
+.model_name > span {
+  width: 84px;
+  margin: 0 10px 0 30px;
+  padding: 5px 20px;
+  color: #fff;
+  border-radius: 14px;
+  background-color: #047bf8;
+}
+
+.model_name button > img {
+  vertical-align: middle;
+}
+
+.model_name button {
+  display: inline;
+  width: 124px;
+  height: 30px;
+  border: 1px solid #0072ce;
+  border-radius: 15px;
+  background-color: #fff;
+}
+.model_name button span {
+  font-size: 14px;
+  color: #047bf8;
+  vertical-align: middle;
+}
+.snnumber {
+  margin: 8px 0 0 30px;
+  width: 240px;
+  height: 20px;
+  font-family: Lato;
+  font-size: 14px;
+  color: #8c939e;
+}
+
+.snnumber span {
+  font-size: 16px;
+}
+
+
+/* .robot_state */
+
+.robot_state {
+  float: left;
+  width: 300px;
+  height: 362px;
+  border-radius: 6px;
+  background-color: #fff;
+  display: inline-block;
+  margin-right: 16px;
+}
+
+.robot_state .robot_state_info {
+  padding: 24px 30px;
+}
+
+.robot_state .robot_state_info h3 {
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+
+.robot_state .robot_state_info .robot_state_noti ul li {
+  display: block;
+  padding: 1px 0;
+}
+
+.robot_state .robot_state_info .robot_state_noti ul li img {
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* robot_event_section */
+.event_section {
+  display: inline-block;
+  float: left;
+  width: 1138px;
+  height: 362px;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.event_view {
+  float: left;
+  margin: 24px 30px;
+  width: 492px;
+}
+
+.event_view .section_title {
+  float: left;
+  display: inline-flex;
+  margin-bottom: 10px;
+}
+
+.event_view .section_title img {
+  vertical-align: middle;
+}
+
+.event_view .time {
+  float: right;
+}
+.event_view .time img {
+  vertical-align: middle;
+}
+
+.event_view video {
+  width: 488px;
+  background-color:#000;
+}
+
+.event_view .time span {
+  color: #aaa;
+}
+
+.event_section h3 {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.event_history {
+  display: inline-block;
+  float: left;
+}
+
+.event_history .section_title {
+  padding: 24px 0 0px;
+}
+
+.event_history .section_title img {
+  vertical-align: middle;
+}
+
+.event_history .more {
+  float: right;
+}
+
+.event_history button img {
+  vertical-align: middle;
+}
+
+.event_history button {
+  border-style: none;
+  background-color: #fff;
+}
+
+/* The Modal (background) */
+.more_modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  width: 562px;
+  background-color: #fff;
+  margin: auto;
+  padding: 30px;
+  border-radius: 6px;
+  /*width: 30%;*/
+}
+
+.modal-content .history_table h2 {
+  font-size: 24px;
+  margin: 10px 0 40px 0;
+}
+.modal-content table {
+  /*width: 100%;*/
+  /*height: 100%;*/
+}
+
+.modal-content .history_table thead>tr:first-of-type,
+.modal-content .history_table tbody>tr:last-of-type {
+  /*border-bottom: 1px solid #ddd;  Already, setting in the scrollbar option*/
+}
+
+.modal-content .history_table tr td {
+  padding: 20px 10px;
+  vertical-align: middle;
+}
+.modal-content .history_table tr td:first-of-type {
+  width: 237px;
+}
+
+
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* modal contents table */
+
+.event_history table {
+  min-width: 550px;
+  margin-top: 6px;
+}
+
+.event_history table thead tr td {
+  height: 30px;
+  padding: 0 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.event_history table tbody tr td {
+  height: 30px;
+  padding: 0 20px;
+}
+
+.event_history table thead tr:nth-child(even) {
+  background-color: #f7f9fa;
+}
+
+.event_history table thead tr th:last-of-type {
+  text-align: left;
+}
+
+.event_history table thead tr td:last-of-type {
+  text-align: right;
+}
+
+.event_history table thead tr th {
+  height: 30px;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.event_history table thead tr th {
+  margin: 0 10px;
+}
+
+
+.event_history table tbody tr:nth-child(even) {
+  background-color: #f7f9fa;
+}
+
+.event_history table tbody tr th:last-of-type {
+  text-align: right;
+}
+
+.event_history table tbody tr td:last-of-type {
+  text-align: left;
+}
+
+.event_history table tbody tr th {
+  height: 30px;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.dataTable {
+  min-width: 550px;
+}
+
+.dataTable thead tr th {
+  height: 30px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e6e8ea;
+}
+.dataTable thead tr th:first-of-type {
+  text-align: left;
+}
+
+.dataTable thead tr th:nth-of-type(2) {
+  text-align: left;
+}
+
+.dataTable thead tr th:last-of-type {
+  text-align: right;
+}
+
+#dataTable tbody tr {
+  height: 44px;
+}
+
+#dataTable tbody tr td {
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+#dataTable tbody tr td:last-of-type {
+  text-align: left;
+}
+#dataTable tbody tr:nth-of-type(even) {
+  background-color: #f7f9fa;
+}
+
+#dataTable tbody tr:last-of-type {
+  border-bottom: 1px solid #e6e8ea;
+}
+
+/*#dataTable tbody tr td .dataTables_empty{*/
+  /*align-content: center;*/
+  /*text-align: center;*/
+/*}*/
+
+/* robot_chart */
+.robot_chart {
+  width: 1772px;
+  height: 372px;
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.robot_chart .chart_section:first-of-type {
+  padding: 0 0 0 20px;
+}
+
+.robot_chart .chart_section {
+  display: inline-block;
+  margin: 30px 10px;
+}
+
+.robot_chart .chart_section h3 {
+  font-size: 16px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+/* chart_workcount chart_cnt */
+.robot_chart .chart_cnt {
+  width: 498px;
+  height: 288px;
+}
+
+/* chart_temperature chart_tmp */
+.robot_chart .chart_tmp {
+  width: 1184px;
+  height: 288px;
+}

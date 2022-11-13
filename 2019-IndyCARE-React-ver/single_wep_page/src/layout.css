@@ -1,0 +1,45 @@
+.layout {
+    border: 1px solid rgba(0, 0, 0, 1);
+    width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top {
+    /*border: 3px solid rgba(25, 72,232, 0.6);*/
+    width: 450px;
+    height: 80px;
+    margin: 0 120px 0 120px;
+}
+
+.head {
+    /*border: 3px solid rgba(215, 45,33, 0.6);*/
+    margin: 0 0 0 0;
+    height: 500px;
+    background-image: url("bitmap.jpg");
+}
+
+.middle {
+    /*border: 3px solid rgba(112, 244,32, 0.6);*/
+    height: 500px;
+    margin: 56px 220px 72px 220px;
+}
+
+.footer {
+    /*border: 3px solid rgba(70, 10,232, 0.6);*/
+}
+
+.logo {
+    margin: 16px 0 18px 10px;
+}
+/*
+    div 중앙 정렬
+
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin 시계 반대방향 상,좌,하,우
+
+*/

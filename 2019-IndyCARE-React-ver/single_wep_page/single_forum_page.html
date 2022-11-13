@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Neuromeka-lounge</title>
+    <link rel="shortcut icon" href="./img/fav32.png" />
+    <!-- <link rel="stylesheet" href="spa.css" /> -->
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+      @import url("https://fonts.googleapis.com/css?family=Noto+Sans&display=swap");
+
+      body {
+        position: relative;
+        margin: 0;
+      }
+
+      .backImg {
+        position: absolute;
+        width: 100%;
+        height: 500px;
+        background-image: url("./img/bitmap.jpg");
+        background-size: cover;
+        margin-top: 80px;
+      }
+
+      .layout {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+      }
+
+      .header {
+        width: 450px;
+        height: 80px;
+        margin: 0 120px 0 120px;
+      }
+
+      .head {
+        margin: 0 0 0 0;
+        height: 500px;
+      }
+
+      .contents {
+        height: 460px;
+        margin: 56px 220px 0px 220px;
+      }
+
+      .logo {
+        margin: 16px 0 18px 10px;
+      }
+
+      .header_title {
+        margin: 0 0 8px 156px;
+        padding-top: 106px;
+      }
+
+      .slogan {
+        width: 230px;
+        height: 36px;
+        font-family: Montserrat, sans-serif;
+        font-size: 24px;
+        font-weight: 300;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: -0.5px;
+        color: #ffffff;
+      }
+
+      .header_title2 {
+        margin-bottom: 92px;
+        margin-left: 156px;
+      }
+
+      .header2 {
+        width: 405px;
+        height: 30px;
+        object-fit: contain;
+      }
+
+      .header_body {
+        margin-bottom: 16px;
+        margin-left: 156px;
+      }
+
+      .header3 {
+        width: 610px;
+        height: 24px;
+        font-family: NotoSansCJKkr, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: -0.5px;
+        color: #c8cbd0;
+      }
+
+      .header_body2 {
+        margin-bottom: 36px;
+        margin-left: 156px;
+      }
+
+      .header4 {
+        width: 1128px;
+        height: 20px;
+        font-family: NotoSansCJKkr, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.43;
+        letter-spacing: -0.5px;
+        color: #c8cbd0;
+      }
+
+      .header_footer {
+        margin-left: 156px;
+        width: 298px;
+        height: 36px;
+        border-radius: 23px;
+        border: solid 1px #047bf8;
+        background-color: rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .header5 {
+        width: 204px;
+        height: 24px;
+        font-family: Montserrat, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: -0.5px;
+        color: #047bf8;
+      }
+
+      .menu_title {
+        width: 610px;
+        height: 36px;
+        font-family: Montserrat, sans-serif;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.5;
+        letter-spacing: -0.8px;
+        color: #333f52;
+      }
+
+      .menu_wrap {
+        display: inline-flex;
+        margin-top: 36px;
+      }
+
+      .item_section {
+        width: 312px;
+        height: 190px;
+        text-align: center;
+      }
+
+      .item_section a {
+        cursor: pointer;
+      }
+
+      .item_img {
+        width: 56px;
+        height: 56px;
+        object-fit: contain;
+        padding: 22px;
+      }
+
+      .item_title {
+        width: 264px;
+        height: 36px;
+        font-family: Montserrat, sans-serif;
+        font-size: 24px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: -0.5px;
+        text-align: center;
+        color: #333f52;
+        margin: 0 0 4px 0;
+        display: inline-block;
+      }
+
+      .item_subtitle {
+        width: 264px;
+        height: 24px;
+        font-family: Montserrat, sans-serif;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: -0.5px;
+        text-align: center;
+        color: #8c939e;
+        margin: 0 0 0 0;
+        display: inline-block;
+      }
+
+      .divider_col {
+        width: 1px;
+        background-color: #e6e8ea;
+      }
+
+      .divider_row {
+        height: 1px;
+        background-color: #e6e8ea;
+        margin: 36px 0 36px 0;
+      }
+
+      .inquiry_title {
+        width: 283px;
+        height: 36px;
+        font-family: Montserrat, sans-serif;
+        font-size: 24px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: -0.5px;
+        color: #333f52;
+        display: inline;
+      }
+
+      .inquiry_btn {
+        float: right;
+        width: 280px;
+        height: 36px;
+        background-color: #fff;
+        border-radius: 6px;
+        border: solid 1px #047bf8;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .inquiry_btn a {
+        width: 340px;
+        text-decoration: none;
+      }
+
+      .inquiry_btn a .mail_icon {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+        vertical-align: middle;
+      }
+
+      .inquiry_btn a span {
+        font-family: Montserrat, sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.5px;
+        color: #047bf8;
+        padding: 0 10px;
+        vertical-align: bottom;
+      }
+
+      .inquiry_info {
+        width: 740px;
+        height: 20px;
+        font-family: NotoSansCJKkr, sans-serif;
+        font-size: 14px;
+        line-height: 1.43;
+        letter-spacing: -0.5px;
+        color: #aaafb6;
+        margin: 10px 0 0 0;
+      }
+
+      .footer_wrap {
+        margin: 0 156px 0 156px;
+        height: 120px;
+      }
+
+      .footer_company {
+        width: 1440px;
+        height: 60px;
+        font-family: NotoSansCJKkr, sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        letter-spacing: -0.5px;
+        color: #8c939e;
+      }
+
+      .footer_copyrights {
+        width: 500px;
+        height: 18px;
+        font-family: NotoSansCJKkr, sans-serif;
+        font-size: 10px;
+        line-height: 1.8;
+        letter-spacing: -0.25px;
+        color: #aaafb6;
+        margin: 20px 0 50px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="backImg"></div>
+    <div class="layout">
+      <div class="header">
+        <img class="logo" src="./img/neuromeka.svg" alt="neuromeka_logo" />
+      </div>
+      <div class="head">
+        <div class="header_title">
+          <span class="slogan">Smart & Connected!</span>
+        </div>
+        <div class="header_title2">
+          <img
+            class="header2"
+            src="./img/neuromeka_text_logo.png"
+            alt="neuromeka_text_logo"
+          />
+        </div>
+        <div class="header_body">
+          <span class="header3">협동로봇 기술의 선구자</span>
+        </div>
+        <div class="header_body2">
+          <span class="header4"
+            >협동로봇 중심의 RasS(Robot as a Service) 플랫폼 비즈니스 생태게,
+            축적된 로봇 기술을 공유하여 생산성 향상에 기여하고자 합니다.</span
+          >
+        </div>
+        <div class="header_footer">
+          <p class="header5">Neuromeka Robot Line Up</p>
+          <img class="id" src="./img/arr.svg" alt="icon_arrow" />
+        </div>
+      </div>
+      <div class="contents">
+        <div class="body1">
+          <h1 class="menu_title">Support</h1>
+          <div class="menu_wrap">
+            <div class="item_section">
+              <a href="mailto:Sales@neuromeka.com">
+                <img class="item_img" src="./img/cs_icon.svg" alt="img_cs" />
+              </a>
+              <h1 class="item_title">CS</h1>
+              <h1 class="item_subtitle">send email</h1>
+            </div>
+            <div class="divider_col"></div>
+            <div class="item_section">
+              <a href="http://forum.indygo.kr/">
+                <img
+                  class="item_img"
+                  src="./img/forums_icon.svg"
+                  alt="img_forums"
+                />
+              </a>
+              <p class="item_title">Forums</p>
+              <p class="item_subtitle">open forums site</p>
+            </div>
+            <div class="divider_col"></div>
+            <div class="item_section">
+              <a href="http://docs.neuromeka.com/">
+                <img
+                  class="item_img"
+                  src="./img/docs_icon.svg"
+                  alt="img_docs"
+                />
+              </a>
+              <p class="item_title">Docs</p>
+              <p class="item_subtitle">neuromeka docs</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider_row"></div>
+
+        <div>
+          <p class="inquiry_title">Purchase Inquiry</p>
+          <button class="inquiry_btn">
+            <a href="mailto:Sales@neuromeka.com">
+              <img
+                class="mail_img"
+                src="./img/mail_icon.svg"
+                alt="icon_email"
+              />
+              <span>Sales@neuromeka.com</span>
+            </a>
+          </button>
+          <p class="inquiry_info">
+            구매를 원하시는 고객님께서는 오른쪽 버튼을 통해 메일을 보내주세요.
+          </p>
+        </div>
+      </div>
+
+      <div class="divider_row"></div>
+
+      <div class="footer_wrap">
+        <span class="footer_company"
+          >(주)뉴로메카 / 대표 박종훈 / 사업자 등록번호 132-86-13766 / FAX
+          070-4791-3103 / 구매문의 : sales@neuromeka.com</span
+        >
+        <br />
+        <span class="footer_company"
+          >[본&nbsp;&nbsp;&nbsp;&nbsp;사] 서울시 성동구 연무장5가길 7 성수역
+          현대테라스타워 W동 15층</span
+        >
+        <p class="footer_copyrights">© 2019 Neuromeka. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>
