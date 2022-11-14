@@ -1,0 +1,50 @@
+/* reset */
+@import url(../components/Public/ericmeyer_reset.css);
+/* Web font */
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+
+html, body {
+    font-family: "Lato", sans-serif;
+    background-color: #f2f4f8;
+}
+
+/* layout */
+#wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+/* contents_wrap */
+.contents_wrap {
+    display: block;
+    float: left;
+    /*min-width: 1829px;*/
+    height: 100%;
+    top: 0;
+    padding: 0 0 0 90px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.clear {
+    *zoom: 1;
+}
+
+.clear:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.header_top {
+    background-color: #fff;
+}
+
+/* robot list page : list_contents_wrap */
+.list_contents_wrap {
+    background-color: #fff;
+    border-radius: 6px;
+    padding-bottom: 4px;
+    margin: 30px;
+    width: 1770px;
+}
