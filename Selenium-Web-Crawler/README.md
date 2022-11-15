@@ -1,4 +1,8 @@
 # Web Shopping Mall Crawler
+해당 프로젝트는 2019년 과제로 만들게 된 크롤링으로 \
+아래 URL인 G-market과 GS-shop의 아이템을 크롤링하기 위한 목적으로 만들었다.
+Gmarket: https://m.gmarket.co.kr/n/superdeal?categoryCode=400000
+Gsshop: https://www.gsshop.com/shop/sect/sectL.gs?sectid=1378
 
 ## Description
 Shopping mall Crawling Python Code

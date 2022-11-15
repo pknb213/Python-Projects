@@ -1,9 +1,7 @@
 # Flask Board Example
-
 This is an example of adding and deleting bulletin boards using Flask.
 
 ## Library
-
 The libraries and versions used in the project are as follows.
 
 ### Database
