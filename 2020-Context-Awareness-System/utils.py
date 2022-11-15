@@ -40,7 +40,8 @@ RS300 = "everybot-rs300_v2"
 
 # URL MACRO
 API_GATEWAY_URL = "http://218.55.23.200:10400/v2/report/push/state"
-LOCAL_URL = "http://218.55.23.208:5000"
+# LOCAL_URL = "http://218.55.23.208:5000"
+LOCAL_URL = "http://127.0.0.1:50000"
 TEST_URL = "http://localhost:5000"
 
 # RDB MACRO
@@ -126,7 +127,8 @@ def get_log_date():
 def connect_redis():
     st = datetime.datetime.now(timezone("Asia/Seoul"))
     _host = 'localhost'
-    _port = 6379
+    # _port = 6379
+    _port = 25100
     _db = 0
     try:
         conn = redis.Redis(host=_host, port=_port, db=_db)
