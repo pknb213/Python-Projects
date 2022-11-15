@@ -1,0 +1,29 @@
+/* Style the tab */
+.tab_menu {
+  overflow: hidden;
+  padding-left: 20px;
+  border-top: 1px solid #f2f4f8;
+  background-color: #fff;
+}
+
+/* Style the buttons inside the tab */
+.tab_menu button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab_menu button:hover {
+  background-color: #eaedf4;
+}
+
+/* Create an active/current tablink class */
+.tab_menu button.active {
+  border-bottom: 4px solid #047bf8;
+}

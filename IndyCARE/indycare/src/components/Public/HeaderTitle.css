@@ -1,0 +1,33 @@
+/* reset */
+@import url(ericmeyer_reset.css);
+
+/* Web font */
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+
+/* breadscrum */
+
+.breadcrumb {
+  line-height: 24px;
+}
+.breadcrumb li {
+  margin: AUTO 0;
+  display: inline-block;
+}
+.breadcrumb li:after {
+  content: ">";
+  color: #999;
+  margin: 0 6px;
+}
+.breadcrumb li:last-child:after {
+  content: "";
+}
+.breadcrumb li a {
+  color: #047bf8;
+  font-size: 11px;
+}
+.breadcrumb li a:hover {
+  text-decoration: underline;
+}
+.breadcrumb li:last-child a {
+  color: #666;
+}
