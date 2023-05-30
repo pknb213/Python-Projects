@@ -27,5 +27,5 @@ Lxml(static page) + Selenium(dynamic page) + Async.io(async) + motor(async mongo
 2019년에 작성한 회사 소개 SPA 서버입니다. \
 Flask(server) + Jinja2(front)
 
-## 7. 포트폴리오 서버 (Not yet)
+## 7. 포트폴리오 서버
 2023.
