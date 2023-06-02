@@ -1,13 +1,28 @@
+from apps.batch.log import Log
 from apps.utils.utils import *
 from app import app
 from apps.models.user import *
 from apps.models.board import *
 from apps.models.article import *
+from apps.batch.dummy import *
 
 
 @app.route('/')
 def hello_world():
     return make_response(jsonify({"Message": "Hello World"}), 200)
+
+
+@app.route('/batch/dummy', methods=['GET'])
+def generated_dummy():
+    dummy = Dummy(1800)
+    return Dummy.execute_job(dummy)
+
+
+@app.route('/log', methods=['POST'])
+def post_log():
+    body = request.json
+    query = request.args
+    return Log.received_log(query, body)
 
 
 @app.route('/signup', methods=['POST'])

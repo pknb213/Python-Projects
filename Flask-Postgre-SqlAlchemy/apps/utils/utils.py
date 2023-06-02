@@ -9,7 +9,7 @@ from redis import Redis, RedisError
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
 REDIS_URL = 'localhost'
-cache = Redis(host=REDIS_URL, port=25100, db=0)
+# cache = Redis(host=REDIS_URL, port=25100, db=0)
 
 # Clear Redis
-cache.flushdb()
+# cache.flushdb()

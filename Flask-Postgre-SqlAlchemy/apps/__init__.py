@@ -13,7 +13,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config.update(DEBUG=True, JWT_SECRET_KEY="JVM Screat Key")
 
-    db.init_app(app)
-    migration.init_app(app, db)
+    # db.init_app(app)
+    # migration.init_app(app, db)
     # db.create_all()
     return app
