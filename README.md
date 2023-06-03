@@ -29,3 +29,4 @@ Flask(server) + Jinja2(front)
 
 ## 7. 포트폴리오 서버 (Not yet)
 2023.
+..
