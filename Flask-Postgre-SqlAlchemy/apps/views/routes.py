@@ -20,9 +20,30 @@ def generated_dummy():
 
 @app.route('/log', methods=['POST'])
 def post_log():
-    body = request.json
-    query = request.args
-    return Log.received_log(query, body)
+    if "log" not in request.json: raise error_response("Invalid log")
+    log = request.json["log"]
+    is_file = request.args["is_file"].strip().lower() if "is_file" in request.args else ""
+    return Log.received_log(log)
+
+
+@app.route('/stream')
+def get_stream():
+    if "stream_name" not in request.args: return error_response("Invalid stream name")
+    stream_name = request.args["stream_name"]
+    return Log.get_stream(stream_name)
+
+
+@app.route('/stream', methods=['POST'])
+def post_stream():
+    if "topic" not in request.json: return error_response("Invalid Topic")
+    if "stream_name" not in request.json: return error_response("Invalid stream name")
+    if "log" not in request.json: return error_response("Invalid log")
+    if "schema" not in request.json: return error_response("Invalid schema")
+    topic = request.json["topic"]
+    stream_name = request.json["stream_name"]
+    log = request.json["log"]
+    schema = request.json["schema"]
+    return Log.create_stream(topic, stream_name, log, schema)
 
 
 @app.route('/signup', methods=['POST'])

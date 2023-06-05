@@ -1,3 +1,4 @@
+import string
 from datetime import datetime
 from flask import Flask, session, request, jsonify, make_response
 from flask_migrate import Migrate
@@ -13,3 +14,40 @@ REDIS_URL = 'localhost'
 
 # Clear Redis
 # cache.flushdb()
+
+KSQL_URL = "http://localhost:8088/ksql"
+KSQL_QUERY_URL = "http://localhost:8088/query"
+KSQL_HEADER = {
+    "Accept": "application/vnd.ksql.v1+json",
+    "Content-Type": "application/vnd.ksql.v1+json"
+}
+
+
+def ksql_response(msg: string, status_code: int, data: any = ""):
+    """
+    :returns @type, error_code, message, statementText, entities
+    """
+    return jsonify({
+        "message": msg,
+        "status_code": status_code,
+        "data": {"query": data},
+        "success": True if status_code == 200 else False
+    })
+
+
+def ok_response(msg: string, status_code: int = 200, data: any = ""):
+    return jsonify({
+        "message": msg,
+        "status_code": status_code,
+        "data": data,
+        "success": True
+    })
+
+
+def error_response(msg: string, status_code: int = 404):
+    return jsonify({
+        "message": msg,
+        "status_code": status_code,
+        "data": "",
+        "success": False
+    })
