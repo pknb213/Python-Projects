@@ -22,6 +22,9 @@ KSQL_HEADER = {
     "Content-Type": "application/vnd.ksql.v1+json"
 }
 
+LOCAL_LOG_PATH = "/Users/cyj/Opensource/fluent-bit/data/input/test.txt"
+REMOTE_LOG_PATH = "/Users/yj/fluent-bit/data/input/test.txt"
+
 
 def ksql_response(msg: string, status_code: int, data: any = ""):
     """
@@ -46,7 +49,7 @@ def ok_response(msg: string, status_code: int = 200, data: any = ""):
 
 def error_response(msg: string, status_code: int = 404):
     return jsonify({
-        "message": msg,
+        "message": str(msg),
         "status_code": status_code,
         "data": "",
         "success": False

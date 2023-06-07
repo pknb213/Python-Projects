@@ -7,6 +7,10 @@ import schedule
 import time
 
 from flask import make_response, jsonify
+
+from apps import LOCAL_LOG_PATH
+
+
 # from apps.kafka.inference_consumer import *
 
 
@@ -45,7 +49,7 @@ def job(file_path, logs: string = None):
 class Dummy:
     def __init__(self, seconds):
         self.seconds = seconds
-        self.file_path = "/Users/yj/fluent-bit/data/input/test.txt"
+        self.file_path = LOCAL_LOG_PATH
 
     def execute_job(self):
         print("Start Job")

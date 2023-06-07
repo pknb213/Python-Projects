@@ -7,18 +7,36 @@ from apps.models.article import *
 from apps.batch.dummy import *
 
 
-@app.route('/')
+@app.route("/")
 def hello_world():
     return make_response(jsonify({"Message": "Hello World"}), 200)
 
 
-@app.route('/batch/dummy', methods=['GET'])
+@app.route("/batch/dummy", methods=["GET"])
 def generated_dummy():
-    dummy = Dummy(1800)
+    if "seconds" not in request.args: return error_response("Invalid seconds")
+    seconds = int(request.args["seconds"])
+    if seconds < 0: return error_response("Invalid seconds")
+    dummy = Dummy(seconds)
     return Dummy.execute_job(dummy)
 
 
-@app.route('/log', methods=['POST'])
+@app.route("/topics")
+def get_topics():
+    return Log.show_topics()
+
+
+@app.route("/streams")
+def get_streams():
+    return Log.show_streams()
+
+
+@app.route("/tables")
+def get_tables():
+    return Log.show_tables()
+
+
+@app.route("/log", methods=["POST"])
 def post_log():
     if "log" not in request.json: raise error_response("Invalid log")
     log = request.json["log"]
@@ -26,44 +44,65 @@ def post_log():
     return Log.received_log(log)
 
 
-@app.route('/stream')
+@app.route("/stream")
 def get_stream():
     if "stream_name" not in request.args: return error_response("Invalid stream name")
     stream_name = request.args["stream_name"]
     return Log.get_stream(stream_name)
 
 
-@app.route('/stream', methods=['POST'])
+@app.route("/stream", methods=["POST"])
 def post_stream():
     if "topic" not in request.json: return error_response("Invalid Topic")
     if "stream_name" not in request.json: return error_response("Invalid stream name")
-    if "log" not in request.json: return error_response("Invalid log")
     if "schema" not in request.json: return error_response("Invalid schema")
     topic = request.json["topic"]
     stream_name = request.json["stream_name"]
-    log = request.json["log"]
     schema = request.json["schema"]
-    return Log.create_stream(topic, stream_name, log, schema)
+    return Log.create_stream(topic, stream_name, schema)
 
 
-@app.route('/signup', methods=['POST'])
+@app.route("/table")
+def get_table():
+    if "table_name" not in request.args: return error_response("Invalid table name")
+    table_name = request.args["table_name"]
+    return Log.get_table(table_name)
+
+
+@app.route("/table", methods=["POST"])
+def post_table():
+    if "table_name" not in request.json: return error_response("Invalid stream name")
+    if "select_query" not in request.json: return error_response("Invalid select_query")
+    table_name = request.json["table_name"]
+    select_query = request.json["select_query"]
+    return Log.create_table(table_name, select_query)
+
+
+@app.route("/query")
+def get_query():
+    if "query" not in request.args: return error_response("Invalid query")
+    query = request.args["query"]
+    return Log.select_query(query)
+
+
+@app.route("/signup", methods=["POST"])
 def sing_up():
-    name = request.form.get('fullname')
-    email = request.form.get('email')
-    password = request.form.get('password')
+    name = request.form.get("fullname")
+    email = request.form.get("email")
+    password = request.form.get("password")
     return User.signup_post(name, email, password)
 
 
-@app.route('/login', methods=['POST'])
+@app.route("/login", methods=["POST"])
 def login():
-    email = request.form.get('email')
-    password = request.form.get('password')
+    email = request.form.get("email")
+    password = request.form.get("password")
     return User.login_post(email, password)
 
 
-@app.route('/logout', methods=["POST"])
+@app.route("/logout", methods=["POST"])
 def logout():
-    email = request.form.get('email')
+    email = request.form.get("email")
     return User.logout(email)
 
 
@@ -77,8 +116,8 @@ def post_create_board():
 
 @app.route("/board_list", methods=["GET"])
 def get_board_list():
-    limit = request.args.get('limit', 100, type=int)
-    offset = request.args.get('offset', 1, type=int)
+    limit = request.args.get("limit", 100, type=int)
+    offset = request.args.get("offset", 1, type=int)
     return Board.read_board_list(limit, offset)
 
 
@@ -99,8 +138,8 @@ def post_delete_board(board_id):
 
 @app.route("/article_list/<int:board_id>", methods=["GET"])
 def get_article_list(board_id):
-    limit = request.args.get('limit', 100, type=int)
-    offset = request.args.get('offset', 1, type=int)
+    limit = request.args.get("limit", 100, type=int)
+    offset = request.args.get("offset", 1, type=int)
     return BoardArticle.read_article_list(limit, offset, board_id)
 
 
@@ -116,8 +155,8 @@ def post_create_article():
 
 @app.route("/article/<int:board_id>/<int:article_id>", methods=["GET"])
 def get_article(board_id, article_id):
-    limit = request.args.get('limit', 100, type=int)
-    offset = request.args.get('offset', 1, type=int)
+    limit = request.args.get("limit", 100, type=int)
+    offset = request.args.get("offset", 1, type=int)
     return BoardArticle.read_article(limit, offset, board_id, article_id)
 
 
@@ -139,7 +178,7 @@ def delete_article(board_id, article_id):
 
 @app.route("/dashboard", methods=["GET"])
 def get_dashboard():
-    n = request.args.get('n', 10, type=int)
-    limit = request.args.get('limit', 100, type=int)
-    offset = request.args.get('offset', 1, type=int)
+    n = request.args.get("n", 10, type=int)
+    limit = request.args.get("limit", 100, type=int)
+    offset = request.args.get("offset", 1, type=int)
     return BoardArticle.read_dashboard(n, limit, offset)
