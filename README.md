@@ -29,3 +29,6 @@ Flask(server) + Jinja2(front)
 
 ## 7. 포트폴리오 서버 (Not yet)
 2023.
+
+## 8. Kafka Ksqldb Server
+flask로 작성된 Ksqldb 연동 rest 서버 
