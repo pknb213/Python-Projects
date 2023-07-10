@@ -21,16 +21,16 @@ async def test_braze_api():
     body = [{
         'external_id': 563957,
         'sex': 'm',
-        'is_sms_target': 'n',
-        'is_email_target': 'n',
-        'is_push_target': 'n',
-        'is_deleted': 'n',
-        'favorite_brands': ["Ami", "Fear of God", "Wooyoungmi"],
-        'sms': None,
-        'app_push': None,
-        'brandcode': None,
-        'brandnm': None,
-        'brandnm_kr': None
+        # 'is_sms_target': 'n',
+        # 'is_email_target': 'n',
+        # 'is_push_target': 'n',
+        # 'is_deleted': 'n',
+        # 'favorite_brands': ["Ami", "Fear of God", "Wooyoungmi"],
+        # 'sms': None,
+        # 'app_push': None,
+        # 'brandcode': None,
+        # 'brandnm': None,
+        # 'brandnm_kr': None
     }]
 
     res = requests.post(
@@ -55,28 +55,36 @@ async def execute_braze(session, data):
 
     data = [
         {
-            header[i]: 563957 if i == 0 else row[i].split(",") # int(row[i])
+            header[i]: int(row[i]) if i == 0 else row[i].split(",") #563957
             if row[i] is not None else []
             for i in range(0, len(row))
         } for row in data
     ]
-
     data = [
         {
             **item,
             'favorite_brands': None
         } for item in data
     ]
-
     if len(data) != 0:
         print("Data: ", data, len(data))
     else:
         return
 
-    async with session.post(os.getenv("BRAZE_INSTANCE"), headers=headers, json={"attributes": data}) as response:
-        # 응답 처리 로직
-        res = await response.json()
-        print("\nBraze Res:", res)
+    url = os.getenv("BRAZE_INSTANCE")
+    try:
+        async with session.post(
+                url,
+                headers=headers,
+                json={"attributes": data},
+                ssl=False,
+        ) as response:
+            # 응답 처리 로직
+            # res = response.json()
+            # print("\nBraze Res:", res)
+            await asyncio.sleep(0.02)
+    except aiohttp.ClientConnectorError as e:
+        raise f"Connection Error: {str(e)}"
 
 
 async def create_pool():
@@ -135,48 +143,51 @@ async def run_tasks(session, data):  # session, aiohttp
 async def main():
     print("Braze Script Start: ", datetime.datetime.now())
     st = time.time()
+    # await test_braze_api()
+
+    # 내부 DB 데이터 fetch
+    result = await fetch_member()
+    if result is False: raise "Braze Script Fail, Document is zero."
+
+    mt = time.time()
+
+    # 각 프로세스에서 처리할 범위
+    chunk_size = 50  # 1 ap is 75 attributes => 50
+    total_numbers = len(result)
+    # 비동기 작업 리스트
+    tasks = set()
+    print(f"Total: {total_numbers}\nStart Offset: {result[0]}\nLast Offset: {result[-1]}")
+    print(f"Fetch Time: {mt - st}")
+
     try:
-        # await test_braze_api()
-
-        # 내부 DB 데이터 fetch
-        result = await fetch_member()
-        if result is False: raise "Braze Script Fail, Document is zero."
-
-        mt = time.time()
-
-        # 각 프로세스에서 처리할 범위
-        chunk_size = 50  # 1 ap is 75 attributes => 50
-        total_numbers = len(result)
-        total_numbers = 10
-        # 비동기 작업 리스트
-        tasks = []
-        print(f"Total: {total_numbers}\nStart Offset: {result[0]}\nLast Offset: {result[-1]}")
-        print(f"Fetch Time: {mt - st}")
-
         # aiohttp 세션 생성
+        # conn = aiohttp.TCPConnector(limit_per_host=5) # connector=conn 아래 세션 매개변수에 추가 방법
+        async with aiohttp.ClientSession() as session: #trust_env=True
+            for i in range(0, total_numbers + 1, chunk_size):
+                if i % 30000 == 0:
+                    await asyncio.sleep(1)
+                start = i
+                end = min(i + chunk_size, total_numbers)
+                # print(f"Execute: {start} ~ {end}")
 
-        for i in range(0, total_numbers + 1, chunk_size):
-            session = aiohttp.ClientSession()
-            start = i
-            end = min(i + chunk_size, total_numbers)
-            # print(f"Execute: {start} ~ {end}")
-            if i % 30000 == 0:
-                await asyncio.sleep(2)
+                # 비동기 작업 생성
+                task = asyncio.create_task(execute_braze(session, result[start:end]))
+                tasks.add(task)
+                await asyncio.sleep(0.02)
 
-            # 비동기 작업 생성
-            # task = asyncio.create_task(run_tasks(session, result[start:end]))
-            task = asyncio.create_task(execute_braze(session, result[start:end]))
-            tasks.append(task)
-
-        # 비동기 작업 완료 대기
-        await asyncio.gather(*tasks)
+            # 비동기 작업 완료 대기
+            await asyncio.gather(*tasks) #return_exceptions=True
+        await session.close()
     except Exception as e:
+        await session.close()
         print("\nError: ", e)
     finally:
         et = time.time()
         print(f"Fetch Time: {mt - st}")
         print(f"Process Time: {et - mt}")
         print(f"End Date: {datetime.datetime.now()}")
+        print(f"Total: {total_numbers}\nStart Offset: {result[0]}Last Offset: {result[-1]}")
+        return False
 
 
 if __name__ == '__main__':
