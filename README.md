@@ -32,4 +32,10 @@ Flask(server) + Jinja2(front)
 
 ## 8. Kafka Ksqldb Server
 flask로 작성된 Ksqldb 연동 rest 서버 
+
+## 9. External API Script
+1. Kakao sync
+   TBD
+3. Braze
+   TBD
 ..
