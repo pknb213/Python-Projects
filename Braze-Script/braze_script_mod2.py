@@ -179,3 +179,24 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
     loop.close()
+
+
+# 더 정밀한 sleep 방법 (동기)
+# def sleep_milliseconds(milliseconds):
+#     start_time = time.perf_counter()
+#     while (time.perf_counter() - start_time) < milliseconds / 1000:
+#         pass
+#
+# sleep_milliseconds(10)  # 0.01초 대기
+
+# 더 정밀한 sleep 방법 (비동기)
+# async def precise_sleep(seconds):
+#     future = asyncio.get_event_loop().create_future()
+#
+#     def resolve_future():
+#         future.set_result(None)
+#
+#     asyncio.get_event_loop().call_later(seconds, resolve_future)
+#     await future
+#
+# await precise_sleep(0.01)  # 0.01초 대기
