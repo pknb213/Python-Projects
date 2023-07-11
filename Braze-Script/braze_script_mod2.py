@@ -50,20 +50,20 @@ async def execute_braze(session, data):
     }
     header = [
         "external_id",
-        "wishlist_brand"
+        "is_apppush_target"
     ]
 
     data = [
         {
-            header[i]: int(row[i]) if i == 0 else row[i].split(",") #563957
-            if row[i] is not None else []
+            header[i]: int(row[i]) if i == 0 else row[i] #563957
+            if row[i] == 'y' else 'n'
             for i in range(0, len(row))
         } for row in data
     ]
     data = [
         {
             **item,
-            'favorite_brands': None
+            'is_push_target': None
         } for item in data
     ]
     if len(data) != 0:
@@ -106,38 +106,22 @@ async def fetch_member():
         async with conn.cursor() as cur:
             await cur.execute(f"""
                 select u.m_no,
-                        group_concat(
-                            (
-                                select brandnm
-                                from gd_goods_brand b
-                                where bdw.brandno = b.sno
-                            )
-                       ) as wishlist_brand
+                       u.app_push as is_apppush_target
                 from (
-                    select m.m_no
+                    select m.m_no, m.app_push
                     from gd_member m
                     union
-                    select h.m_no
+                    select h.m_no, 'n' as app_push
                     from gd_log_hack h
                 ) as u
-                    left join bl_designer_wish bdw
-                        on u.m_no = bdw.m_no
                 group by u.m_no;
                 """)
             data = await cur.fetchall()
             if data is None:
                 print("DB is Empty !!")
                 return False
-            # print(f"DB Count: {len(data)}, \n Ex.[0]: {list(data[0])}\n Ex.[-1]: {list(data[-1])}")
+            print(f"DB Count: {len(data)}, \n Ex.[0]: {list(data[0])}\n Ex.[-1]: {list(data[-1])}")
             return data
-
-
-async def run_tasks(session, data):  # session, aiohttp
-    """
-    Braze track api execute
-    :param data: internal db document
-    """
-    await execute_braze(session, data)
 
 
 async def main():
@@ -154,6 +138,7 @@ async def main():
     # 각 프로세스에서 처리할 범위
     chunk_size = 50  # 1 ap is 75 attributes => 50
     total_numbers = len(result)
+    # total_numbers = 1000 # Limit
     # 비동기 작업 리스트
     tasks = set()
     print(f"Total: {total_numbers}\nStart Offset: {result[0]}\nLast Offset: {result[-1]}")
