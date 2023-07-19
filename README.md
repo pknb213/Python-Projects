@@ -27,11 +27,11 @@ Lxml(static page) + Selenium(dynamic page) + Async.io(async) + motor(async mongo
 This is the company introduction SPA code written in 2019. \
 Flask(server) + Jinja2(front)
 
-## 7. 포트폴리오 서버 (Not yet)
-     
+## 7. 포트폴리오 서버
+Not yet
 
 ## 8. Kafka Ksqldb Server
-flask로 작성된 Ksqldb 연동 rest 서버 
+Confluent Ksqldb linked rest server written in flask.
 
 ## 9. External API Script
 1. Kakao sync \
