@@ -21,7 +21,6 @@ KAKAO_API_HOST = os.getenv("KAKAO_API_HOST")
 KAKAO_CLIENT_ID = os.getenv("KAKAO_CLIENT_ID")
 # Admin Key
 KAKAO_ADMIN_KEY = os.getenv("KAKAO_ADMIN_KEY")
-load_dotenv(dotenv_path='.env')
 
 
 async def get_authority_code():
