@@ -70,19 +70,20 @@ async def execute_braze(session, data):
         return
 
     url = os.getenv("BRAZE_INSTANCE")
-    try:
-        async with session.post(
-                url,
-                headers=headers,
-                json={"attributes": data},
-                ssl=False,
-        ) as response:
-            # 응답 처리 로직
-            # res = response.json()
-            # print("\nBraze Res:", res)
-            await asyncio.sleep(0.01)
-    except aiohttp.ClientConnectorError as e:
-        raise f"Connection Error: {str(e)}"
+    # Todo: Async POST
+    # try:
+    #     async with session.post(
+    #             url,
+    #             headers=headers,
+    #             json={"attributes": data},
+    #             ssl=False,
+    #     ) as response:
+    #         # 응답 처리 로직
+    #         # res = response.json()
+    #         # print("\nBraze Res:", res)
+    #         await asyncio.sleep(0.01)
+    # except aiohttp.ClientConnectorError as e:
+    #     raise f"Connection Error: {str(e)}"
 
 
 async def create_pool():
@@ -134,9 +135,9 @@ async def main():
     mt = time.time()
 
     # 각 프로세스에서 처리할 범위
-    chunk_size = 50  # 1 ap is 75 attributes => 50
+    chunk_size = 50
     total_numbers = len(result)
-    # total_numbers = 1000 # Limit
+
     # 비동기 작업 리스트
     tasks = set()
     print(f"Total: {total_numbers}\nStart Offset: {result[0]}\nLast Offset: {result[-1]}")
@@ -144,8 +145,7 @@ async def main():
 
     try:
         # aiohttp 세션 생성
-        # conn = aiohttp.TCPConnector(limit_per_host=5) # connector=conn 아래 세션 매개변수에 추가 방법
-        async with aiohttp.ClientSession() as session: #trust_env=True
+        async with aiohttp.ClientSession() as session:
             for i in range(0, total_numbers + 1, chunk_size):
                 if i % 30000 == 0:
                     await asyncio.sleep(1)
@@ -159,7 +159,7 @@ async def main():
                 await asyncio.sleep(0.01)
 
             # 비동기 작업 완료 대기
-            await asyncio.gather(*tasks) #return_exceptions=True
+            await asyncio.gather(*tasks)
         await session.close()
     except Exception as e:
         await session.close()
@@ -177,24 +177,3 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
     loop.close()
-
-
-# 더 정밀한 sleep 방법 (동기)
-# def sleep_milliseconds(milliseconds):
-#     start_time = time.perf_counter()
-#     while (time.perf_counter() - start_time) < milliseconds / 1000:
-#         pass
-#
-# sleep_milliseconds(10)  # 0.01초 대기
-
-# 더 정밀한 sleep 방법 (비동기)
-# async def precise_sleep(seconds):
-#     future = asyncio.get_event_loop().create_future()
-#
-#     def resolve_future():
-#         future.set_result(None)
-#
-#     asyncio.get_event_loop().call_later(seconds, resolve_future)
-#     await future
-#
-# await precise_sleep(0.01)  # 0.01초 대기
