@@ -1,5 +1,6 @@
 # Python-Projects
-Server repository created in Python. \
+Server repository created in Python for study. \
+The prod server is not here. \
 If you go to the project directory, it is listed on the appropriate REAEME.md .
 
 ## 1. Flask-Batch-Swagger-Pdf
