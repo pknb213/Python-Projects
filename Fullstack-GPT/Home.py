@@ -1,22 +1,22 @@
 import streamlit as st
 from langchain.prompts import PromptTemplate
 
-# streamlit run Home.py
-st.title("Home")
+st.set_page_config(
+    page_title="Language Chain Home",
+    page_icon="🔗"
+)
 
-st.subheader("Welcome to the Home Page")
+with st.sidebar:
+    st.title("Language Chain")
+    st.text_input("Enter your prompt here:")
 
-st.markdown("""
-    #### I love it
-""")
+st.title("Language Chain")
 
-st.write("Hello")
-st.write([1,2,3,4,5])
-st.write({"a": 1, "b": 2, "c":3})
-st.write(PromptTemplate)
+tab_one, tab_two, tab_three = st.tabs(["Tab 1", "Tab 2", "Tab 3"])
 
-p = PromptTemplate.from_template("x x x x")
-st.write(p)
-
-st.selectbox("Select Model", ("GPT-3", "GPT-4", "GPT-5"))
-
+with tab_one:
+    st.write("This is tab one")
+with tab_two:
+    st.write("This is tab two")
+with tab_three:
+    st.write("This is tab three")
