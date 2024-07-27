@@ -1,10 +1,27 @@
 import streamlit as st
 from langchain.callbacks import StreamingStdOutCallbackHandler
 from langchain.prompts import ChatPromptTemplate
+from langchain.schema import BaseOutputParser
 from langchain_community.document_loaders import UnstructuredFileLoader
 from langchain_community.retrievers import WikipediaRetriever
+from langchain_core.output_parsers.base import T
 from langchain_openai import ChatOpenAI
 from langchain_text_splitters import CharacterTextSplitter
+
+
+class JsonOutputParser(BaseOutputParser):
+    def parse(self, text: str) -> T:
+        text = (
+            text
+            .replace("```", "")
+            .replace("json", "")
+            .replace("true", "True")
+            .replace("false", "False")
+        )
+        return eval(text)
+
+
+output_parser = JsonOutputParser()
 
 st.set_page_config(
     page_title="Quiz GPT",
@@ -212,6 +229,17 @@ def split_file(file):
     return docs
 
 
+@st.cache_data(show_spinner="Making quize...")
+def run_quiz_chain(docs):
+    chain = {"context": questions_chain} | formatting_chain | output_parser
+    return chain.invoke(docs)
+
+@st.cache_data(show_spinner="Searching Wikipedia...")
+def wiki_search(term):
+    retriever = WikipediaRetriever(top_k_results=5, lang='ko')
+    return retriever.get_relevant_documents(term)
+
+
 with st.sidebar:
     docs = None
     choice = st.selectbox("Choose what you want to use.", (
@@ -224,9 +252,7 @@ with st.sidebar:
     else:
         topic = st.text_input("Enter a topic to search on Wikipedia")
         if topic:
-            retriever = WikipediaRetriever(top_k_results=5, lang='ko')
-            with st.status("Searching Wikipedia..."):
-                docs = retriever.get_relevant_documents(topic)
+            docs = wiki_search(topic)
 
 if not docs:
     st.markdown(
@@ -241,9 +267,6 @@ else:
     start = st.button("Generate Quiz")
 
     if start:
-        questions_response = questions_chain.invoke(docs)
-        st.write(questions_response.content)
-        formatting_response = formatting_chain.invoke({
-            "context": questions_response
-        })
-        st.write(formatting_response.content)
+        chain = {"context": questions_chain} | formatting_chain | output_parser
+        response = chain.invoke(docs)
+        st.write(response)
