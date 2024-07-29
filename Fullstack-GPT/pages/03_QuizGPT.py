@@ -230,18 +230,21 @@ def split_file(file):
 
 
 @st.cache_data(show_spinner="Making quize...")
-def run_quiz_chain(docs):
+def run_quiz_chain(_docs, topic = None):
     chain = {"context": questions_chain} | formatting_chain | output_parser
-    return chain.invoke(docs)
+    return chain.invoke(_docs)
+
 
 @st.cache_data(show_spinner="Searching Wikipedia...")
 def wiki_search(term):
     retriever = WikipediaRetriever(top_k_results=5, lang='ko')
-    return retriever.get_relevant_documents(term)
+    return retriever.get_relevant_documents(term) # Deprecated 됬으니 invoke 써라 뜸
 
 
 with st.sidebar:
     docs = None
+    topic = None
+
     choice = st.selectbox("Choose what you want to use.", (
         "File", "Wikipedia Articl"
     ))
@@ -264,9 +267,19 @@ if not docs:
         """
     )
 else:
-    start = st.button("Generate Quiz")
+    response = run_quiz_chain(docs, topic if topic else file.name)
+    st.write(response)
+    with st.form("questions_form"):
+        for question in response['questions']:
+            st.write(question["question"])
+            value = st.radio(
+                "Select an option",
+                [answer["answer"] for answer in question["answers"]],
+                index=None,
+            )
+            if {"answer": value, "correct": True} in question["answers"]:
+                st.success("Correct!")
+            elif value is not None:
+                st.error("Wrong!")
+        button = st.form_submit_button("Submit")
 
-    if start:
-        chain = {"context": questions_chain} | formatting_chain | output_parser
-        response = chain.invoke(docs)
-        st.write(response)
