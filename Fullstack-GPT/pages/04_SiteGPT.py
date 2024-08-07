@@ -21,7 +21,8 @@ answers_prompt = ChatPromptTemplate.from_template("""
                                                   
     Then, give a score to the answer between 0 and 5.
     If the answer answers the user question the score should be high, else it should be low.
-    Make sure to always include the answer's score even if it's 0.
+    Make sure to always include the answer's score even if it's 0. And Please, Answer write to KOREAN.
+    
     Context: {context}
                                                   
     Examples:
@@ -122,4 +123,4 @@ if url:
             "question": RunnablePassthrough(),
         } | RunnableLambda(get_answers)
 
-        chain.invoke("What is the pricing of GPT-4 Turbo with vision.")
+        chain.invoke("Please. write to summary.")
