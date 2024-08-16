@@ -2,14 +2,18 @@ import glob
 import math
 import os
 import subprocess
-
 import openai
 import streamlit as st
+
+from langchain.storage import LocalFileStore
 from langchain.chat_models import ChatOpenAI
 from langchain.document_loaders import TextLoader
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema import StrOutputParser
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.vectorstores.faiss import FAISS
+from langchain.embeddings import CacheBackedEmbeddings, OpenAIEmbeddings
+from openai.types.audio import Transcription
 from pydub import AudioSegment
 
 has_transcript = os.path.exists("./.cache/worlds_semi_final.txt")
@@ -17,6 +21,28 @@ has_transcript = os.path.exists("./.cache/worlds_semi_final.txt")
 llm = ChatOpenAI(
     temperature=0.1,
 )
+
+splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+    chunk_size=800,
+    chunk_overlap=100,
+)
+
+
+@st.cache_resource()
+def embed_file(file_path):
+    cache_dir = LocalFileStore(f"./.cache/embeddings/{file.name}")
+    splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+        chunk_size=800,
+        chunk_overlap=100,
+    )
+    loader = TextLoader(file_path)
+    docs = loader.load_and_split(text_splitter=splitter)
+    embeddings = OpenAIEmbeddings()
+    cached_embeddings = CacheBackedEmbeddings.from_bytes_store(embeddings, cache_dir)
+    vectorstore = FAISS.from_documents(docs, cached_embeddings)
+    retriever = vectorstore.as_retriever()
+    return retriever
+
 
 @st.cache_data()
 def transcribe_chunks(chunk_folder, destination):
@@ -26,13 +52,13 @@ def transcribe_chunks(chunk_folder, destination):
     files.sort()
     for file in files:
         with open(file, "rb") as audio_file, open(destination, "a") as text_file:
-            transcript = openai.audio.transcriptions.create(
+            transcript: Transcription = openai.audio.transcriptions.create(
                 model="whisper-1",
                 file=audio_file,
                 response_format="text",
                 language="ko"
             )
-            text_file.write(transcript)
+            text_file.write(str(transcript))
 
 
 @st.cache_data()
@@ -121,10 +147,7 @@ if video:
 
         if start:
             loader = TextLoader(transcript_path)
-            splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-                chunk_size=5000,
-                chunk_overlap=500,
-            )
+
             docs = loader.load_and_split(text_splitter=splitter)
             st.write(len(docs))
 
@@ -170,3 +193,10 @@ if video:
                     )
                     st.write(summary)
             st.write(summary)
+
+    with qa_tab:
+        retriever = embed_file(transcript_path)
+
+        docs = retriever.invoke("do they talk about marcus aurelius?")
+
+        st.write(docs)
